@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Marian Schedenig - initial API and implementation
+ *    Miriam Lee - Improvements
  *******************************************************************************/
 package name.schedenig.adbcontrol;
 
