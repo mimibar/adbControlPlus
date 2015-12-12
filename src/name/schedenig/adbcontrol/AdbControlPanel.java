@@ -37,6 +37,7 @@ public class AdbControlPanel extends JPanel implements MouseListener, KeyListene
 	private int downX;
 	private int downY;
 	private Config config;
+	private long downWhen;
 	
 	public AdbControlPanel(Config config)
 	{
@@ -176,6 +177,7 @@ public class AdbControlPanel extends JPanel implements MouseListener, KeyListene
 	{
 		downX = e.getX();
 		downY = e.getY();
+		downWhen = e.getWhen();
 	}
 
 	@Override
@@ -187,18 +189,24 @@ public class AdbControlPanel extends JPanel implements MouseListener, KeyListene
 		int dx = Math.abs(downX - upX);
 		int dy = Math.abs(downY - upY);
 		
-		if(dx < 5 && dy < 5)
-		{
-			return;
-		}
+
 		
 		int screenDownX = (int) ((double) downX / ratio);
 		int screenDownY = (int) ((double) downY / ratio);
 		int screenUpX = (int) ((double) upX / ratio);
 		int screenUpY = (int) ((double) upY / ratio);
 		
-		adbHelper.sendSwipe(screenDownX, screenDownY, screenUpX, screenUpY);
 		
+        	if (dx < 5 && dy < 5) {
+        	    if (e.getWhen() - downWhen > 500) {// LongPress
+        		adbHelper.sendSwipe(screenDownX, screenDownY, screenUpX, screenUpY, e.getWhen() - downWhen);
+        	    } else {
+        		return;
+        	    }
+        	} else {// Regular Swipe
+        	    adbHelper.sendSwipe(screenDownX, screenDownY, screenUpX, screenUpY);
+        	}
+        	
 		downX = -1;
 		downY = -1;
 	}

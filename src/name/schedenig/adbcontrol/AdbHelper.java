@@ -97,9 +97,21 @@ public class AdbHelper
 		executeCommand(MessageFormat.format("pull {0} {1}", fileName, target.getAbsolutePath()), new ByteArrayOutputStream());
 	}
 
-	public void sendSwipe(int downX, int downY, int upX, int upY)
-	{
-		System.out.println("Swipe from " + downX + "/" + downY + " to " + upX + "/" + upY);
-		executeShellCommand(MessageFormat.format("input swipe {0,number,#####} {1,number,#####} {2,number,#####} {3,number,#####}", downX, downY, upX, upY));
-	}
+        public void sendSwipe(int downX, int downY, int upX, int upY, long... when) 
+        {
+        	if (when.length == 0) {
+        	    System.out.println("Swipe from " + downX + "/" + downY + " to " + upX + "/" + upY);
+        	    executeShellCommand(MessageFormat.format(
+        		    "input swipe {0,number,#####} {1,number,#####} {2,number,#####} {3,number,#####}", downX, downY,
+        		    upX, upY));
+        	} else {
+        	    System.out.println("Swipe(longpress) from " + downX + "/" + downY + " to " + upX + "/" + upY + " for " + when[0]);
+        	    executeShellCommand(MessageFormat.format(
+        		    "input swipe {0,number,#####} {1,number,#####} {2,number,#####} {3,number,#####} {4,number,#####}",
+        		    downX, downY, upX, upY, when[0]));
+        
+        	}
+        }
+
+
 }
