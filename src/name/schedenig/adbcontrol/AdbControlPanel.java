@@ -247,6 +247,9 @@ public class AdbControlPanel extends JPanel implements MouseListener, KeyListene
 			case KeyEvent.VK_RIGHT:
 				adbHelper.sendKey(AndroidKey.DPAD_RIGHT);
 				return;
+			case KeyEvent.VK_SPACE:
+			    	adbHelper.sendKey(AndroidKey.SPACE);
+				return;
 		}
 	}
 
